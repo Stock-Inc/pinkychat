@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Dustismo';
+    src: url('./assets/Dustismo.ttf');
+}
+
+@theme {
+    --font-primary: "Dustismo", "sans-serif";
+    --color-femboy: #ea96ad;
+    --color-femboy-dark: #aa6d7d;
+    --color-dark-alt: #191113;
+    --color-main-dark: #121318;
+    --color-sub-dark: #181820;
+    --color-element-dark: #21242c;
+}
+
