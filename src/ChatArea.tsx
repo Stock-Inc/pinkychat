@@ -1,4 +1,4 @@
-import {ChangeEvent, KeyboardEvent, useRef, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useEffect, useRef, useState} from "react";
 import UserMessageBox from "./UserMessageBox.tsx";
 import OuterMessageBox from "./OuterMessageBox.tsx";
 import {messageArray} from "./MessageArray.tsx";
@@ -8,14 +8,40 @@ function ChatArea() {
     const [value, setValue] = useState('');
     const [messages, setMessages] = useState(messageArray);
 
+    async function fetchMessages() {
+        const response = await fetch("https://api.femboymatrix.su/chat");
+        return await response.json();
+    }
+
+    useEffect(() => {
+        fetchMessages().then((data) => {
+            const newArray: any[] | ((prevState: string[]) => string[]) = []
+            data.reverse().map((element) => {
+                newArray.push(element.message);
+            })
+            setMessages(newArray);
+        });
+    }, [])
+
     const messageLog = document.getElementById("messageLog");
 
     const initialInputHeight:number = 52;
 
-    const ref = useRef<HTMLTextAreaElement>(null);
+    const ref= useRef<HTMLTextAreaElement>(null);
 
     function handleMessage() {
         messageArray.push(value)
+        fetch("https://api.femboymatrix.su/chat", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                name: "penis",
+                message: value
+            })
+        }).then((response) => response.json())
+            .then((json) => console.log(json));
         setValue('');
         setMessages(messageArray)
 
@@ -42,8 +68,6 @@ function ChatArea() {
         }
     }
 
-
-
     function handleInput (changeEvent: ChangeEvent<HTMLTextAreaElement>) {
 
         if (ref.current) {
@@ -53,7 +77,6 @@ function ChatArea() {
     }
 
     return (
-
         <>
             <div id="messageLog" className="h-202 overflow-auto
                 [&::-webkit-scrollbar]:w-3
@@ -63,11 +86,9 @@ function ChatArea() {
                 [&::-webkit-scrollbar-thumb]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-track]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-thumb]:bg-femboy">
-                <UserMessageBox message="Hello World!" />
-                <OuterMessageBox message="Hi!"/>
-                <OuterMessageBox message="Glad to see you here!"/>
-                {messages.map((message) => (<UserMessageBox message={message} />))}
+                {messages.map((message) => (<OuterMessageBox message={message} />))}
             </div>
+
             <footer className="absolute bottom-0 w-[100%] flex justify-evenly bg-sub-dark p-5 border-t-2 border-gray-800">
                 <textarea
                     ref={ref}
@@ -89,7 +110,6 @@ function ChatArea() {
                 </button>
             </footer>
         </>
-
     )
 }
 
