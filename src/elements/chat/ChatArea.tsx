@@ -83,7 +83,7 @@ function ChatArea({username}:{username: string}) {
     }
 
     const sendMessageAlt = () => {
-        if (value !== '') {
+        if (value.trim() !== '') {
             handleMessage()
         }
     }
