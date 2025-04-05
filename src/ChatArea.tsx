@@ -5,13 +5,14 @@ import OuterMessageBox from "./OuterMessageBox.tsx";
 interface chatMessage {
     text: string,
     user: string,
-    id: number
+    id: number,
+    date: number
 }
 
 function ChatArea() {
 
     const defaultMessages:chatMessage[] = [
-        {text: "ewe", user: "wewe", id: 1}
+        {text: "ewe", user: "wewe", id: 1, date:101000}
     ]
 
     const localUserName = "penis";
@@ -26,11 +27,11 @@ function ChatArea() {
 
     function refreshMessages() {
         fetchMessages().then((data) => {
+            console.log(data);
             const newArray:chatMessage[] = []
-            data.reverse().map((element: { message: string; name: string; id: number; }) => {
-                newArray.push({text: element.message, user: element.name, id: element.id});
+            data.reverse().map((element: { message: string; name: string; id: number; date: number }) => {
+                newArray.push({text: element.message, user: element.name, id: element.id, date: element.date});
             })
-            console.log(newArray);
             setMessages(newArray);
         });
     }
@@ -103,7 +104,8 @@ function ChatArea() {
                 dark:[&::-webkit-scrollbar-track]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-thumb]:bg-femboy">
                 {messages.map((message:chatMessage) => (
-                    message.user === localUserName ? <UserMessageBox key={message.id} message={message.text}/> : <OuterMessageBox key={message.id} user={message.user} message={message.text} />
+                    message.user === localUserName ? <UserMessageBox key={message.id} date={message.date} message={message.text}/>
+                        : <OuterMessageBox key={message.id} user={message.user} date={message.date} message={message.text} />
                 ))}
             </div>
             <footer className="absolute bottom-0 w-[100%] flex justify-evenly bg-sub-dark p-5 border-t-2 border-gray-800">
