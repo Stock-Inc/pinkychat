@@ -1,27 +1,46 @@
 import {ChangeEvent, KeyboardEvent, useEffect, useRef, useState} from "react";
 import UserMessageBox from "./UserMessageBox.tsx";
 import OuterMessageBox from "./OuterMessageBox.tsx";
-import {messageArray} from "./MessageArray.tsx";
+
+interface chatMessage {
+    text: string,
+    user: string,
+    id: number
+}
 
 function ChatArea() {
 
+    const defaultMessages:chatMessage[] = [
+        {text: "ewe", user: "wewe", id: 1}
+    ]
+
+    const localUserName = "penis";
+
     const [value, setValue] = useState('');
-    const [messages, setMessages] = useState(messageArray);
+    const [messages, setMessages] = useState(defaultMessages);
 
     async function fetchMessages() {
         const response = await fetch("https://api.femboymatrix.su/chat");
         return await response.json();
     }
 
-    useEffect(() => {
+    function refreshMessages() {
         fetchMessages().then((data) => {
-            const newArray: any[] | ((prevState: string[]) => string[]) = []
-            data.reverse().map((element) => {
-                newArray.push(element.message);
+            const newArray:chatMessage[] = []
+            data.reverse().map((element: { message: string; name: string; id: number; }) => {
+                newArray.push({text: element.message, user: element.name, id: element.id});
             })
+            console.log(newArray);
             setMessages(newArray);
         });
-    }, [])
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            refreshMessages();
+        }, 5000);
+        return () => clearInterval(interval);
+    })
 
     const messageLog = document.getElementById("messageLog");
 
@@ -30,28 +49,26 @@ function ChatArea() {
     const ref= useRef<HTMLTextAreaElement>(null);
 
     function handleMessage() {
-        messageArray.push(value)
         fetch("https://api.femboymatrix.su/chat", {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
             },
             body: JSON.stringify({
-                name: "penis",
+                name: localUserName,
                 message: value
             })
-        }).then((response) => response.json())
-            .then((json) => console.log(json));
+        });
+        refreshMessages();
         setValue('');
-        setMessages(messageArray)
+
+        if (messageLog) {
+            messageLog.scrollTop = messageLog.scrollHeight;
+        }
 
         if (ref.current) {
             ref.current.style.height = "auto";
             ref.current.style.height = `${initialInputHeight}px`;
-        }
-
-        if (messageLog) {
-            messageLog.scrollTop = messageLog.scrollHeight;
         }
     }
 
@@ -69,7 +86,6 @@ function ChatArea() {
     }
 
     function handleInput (changeEvent: ChangeEvent<HTMLTextAreaElement>) {
-
         if (ref.current) {
             ref.current.style.height = "auto";
             ref.current.style.height = `${changeEvent.target.scrollHeight}px`;
@@ -86,9 +102,10 @@ function ChatArea() {
                 [&::-webkit-scrollbar-thumb]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-track]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-thumb]:bg-femboy">
-                {messages.map((message) => (<OuterMessageBox message={message} />))}
+                {messages.map((message:chatMessage) => (
+                    message.user === localUserName ? <UserMessageBox key={message.id} message={message.text}/> : <OuterMessageBox key={message.id} user={message.user} message={message.text} />
+                ))}
             </div>
-
             <footer className="absolute bottom-0 w-[100%] flex justify-evenly bg-sub-dark p-5 border-t-2 border-gray-800">
                 <textarea
                     ref={ref}
