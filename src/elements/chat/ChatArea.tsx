@@ -11,13 +11,13 @@ interface chatMessage {
     date: number
 }
 
-function ChatArea() {
+function ChatArea({username}:{username: string}) {
 
     const defaultMessages:chatMessage[] = [
         {text: "ewe", user: "wewe", id: 1, date:101000}
     ]
 
-    const localUserName = "penis";
+    const localUserName = username;
 
     const [value, setValue] = useState('');
     const [messages, setMessages] = useState(defaultMessages);

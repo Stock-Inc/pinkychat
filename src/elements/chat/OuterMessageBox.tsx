@@ -7,7 +7,7 @@ export default function OuterMessageBox({message, user, date}: {message: string,
     const time = new Date(date * 1000)
 
     function formatTime() {
-        const hours = time.getHours() + 5;
+        const hours = time.getHours();
         const minutes = time.getMinutes();
 
         return `${padZero(hours)}:${padZero(minutes)}`
