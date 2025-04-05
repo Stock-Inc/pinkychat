@@ -1,6 +1,8 @@
 import {ChangeEvent, KeyboardEvent, useEffect, useRef, useState} from "react";
 import UserMessageBox from "./UserMessageBox.tsx";
 import OuterMessageBox from "./OuterMessageBox.tsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeart} from "@fortawesome/free-solid-svg-icons";
 
 interface chatMessage {
     text: string,
@@ -123,9 +125,9 @@ function ChatArea() {
                     text-xl mr-4 pt-3 p-2 pl-4 bg-element-darks resize-none
                     h-auto">
                 </textarea>
-                <button onClick={sendMessageAlt} className="outline-solid outline-femboy rounded-full font-primary text-m p-3 outline-2 text-white
+                <button onClick={sendMessageAlt} className="outline-solid outline-femboy rounded-full h-14 w-14 font-primary text-m p-3 outline-2 text-white
                 cursor-pointer hover:outline-gray-400 hover:outline-3 bg-element-dark text-xl">
-                    Send
+                    <FontAwesomeIcon icon={faHeart} style={{color: "#eb96ad", scale: 1.3}} />
                 </button>
             </footer>
         </>
