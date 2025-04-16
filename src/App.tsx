@@ -17,12 +17,12 @@ function App() {
             path: '/profile',
             element: <ProfilePage callback={(text) => setLocalUserName(text)} username={localUserName}/>
         }
-    ])
+    ]);
   return (
       <>
           <RouterProvider router={router}/>
       </>
-  )
+  );
 }
 
-export default App
+export default App;

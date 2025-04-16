@@ -10,11 +10,11 @@ export default function UserMessageBox({message, date}: {message: string, date: 
         const hours = time.getHours();
         const minutes = time.getMinutes();
 
-        return `${padZero(hours)}:${padZero(minutes)}`
+        return `${padZero(hours)}:${padZero(minutes)}`;
     }
 
     function padZero(num: number) {
-        return (num < 10 ? `0${num}` : num.toString())
+        return (num < 10 ? `0${num}` : num.toString());
     }
 
     return (
@@ -23,5 +23,5 @@ export default function UserMessageBox({message, date}: {message: string, date: 
             <h1 className="text-femboy place-self-end">at {formatTime()}</h1>
             <p className="bg-femboy border-solid p-3 pl-5 pr-5  h-auto outline-2 rounded-4xl text-dark-alt rounded-br-none break-all whitespace-pre-wrap">{text}</p>
         </div>
-    )
+    );
 }
