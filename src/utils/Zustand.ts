@@ -14,4 +14,4 @@ export const useAppStore =
         username: '',
         theme: 'default',
         setUsername: (newName: string) => set({username: newName})
-    }))
+    }));

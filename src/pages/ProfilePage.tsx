@@ -7,5 +7,5 @@ export default function ProfilePage() {
             <Header/>
             <ProfileSettings/>
         </>
-    )
+    );
 }

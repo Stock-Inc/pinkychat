@@ -16,7 +16,7 @@ function ChatArea() {
 
     const defaultMessages:chatMessage[] = [
         {text: "ewe", user: "wewe", id: 1, date:101000}
-    ]
+    ];
 
     const localUserName = useAppStore((state) => state.username);
 
@@ -34,7 +34,7 @@ function ChatArea() {
             const newArray:chatMessage[] = []
             data.reverse().map((element: { message: string; name: string; id: number; date: number }) => {
                 newArray.push({text: element.message, user: element.name, id: element.id, date: element.date});
-            })
+            });
             setMessages(newArray);
         });
     }
@@ -44,7 +44,7 @@ function ChatArea() {
             refreshMessages();
         }, 5000);
         return () => clearInterval(interval);
-    })
+    });
 
     const messageLog = document.getElementById("messageLog");
 
@@ -81,13 +81,13 @@ function ChatArea() {
             e.preventDefault();
             handleMessage();
         }
-    }
+    };
 
     const sendMessageAlt = () => {
         if (value.trim() !== '') {
-            handleMessage()
+            handleMessage();
         }
-    }
+    };
 
     function handleInput (changeEvent: ChangeEvent<HTMLTextAreaElement>) {
         if (ref.current) {
@@ -132,7 +132,7 @@ function ChatArea() {
                 </button>
             </footer>
         </>
-    )
+    );
 }
 
 export default ChatArea;

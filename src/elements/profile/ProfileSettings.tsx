@@ -1,4 +1,4 @@
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useState} from "react";
 import {useAppStore} from "../../utils/Zustand.ts";
 
 export default function ProfileSettings() {
@@ -15,5 +15,5 @@ export default function ProfileSettings() {
                    onChange={handleNameChange}/>
             <button onClick={() => useAppStore.getState().setUsername(newUsername)} className="cursor-pointer">Change Profile Name</button>
         </div>
-    )
+    );
 }

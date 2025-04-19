@@ -13,5 +13,5 @@ export default function OuterMessageBox({message, user, date}: {message: string,
             <h1 className="float-start text-lg ml-2">{user} at {useFormattedTime(time)}</h1>
             <p className="p-3 pl-5 pr-5 h-auto border-solid outline-2 outline-femboy rounded-4xl rounded-bl-none w-fit bg-element-dark whitespace-pre-wrap">{text}</p>
         </div>
-    )
+    );
 }

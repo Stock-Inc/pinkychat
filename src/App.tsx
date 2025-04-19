@@ -16,12 +16,12 @@ function App() {
             path: '/profile',
             element: <ProfilePage/>
         }
-    ])
+    ]);
   return (
       <>
           <RouterProvider router={router}/>
       </>
-  )
+  );
 }
 
-export default App
+export default App;

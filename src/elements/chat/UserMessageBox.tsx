@@ -13,5 +13,5 @@ export default function UserMessageBox({message, date}: {message: string, date: 
             <h1 className="text-femboy place-self-end">at {useFormattedTime(time)}</h1>
             <p className="bg-femboy border-solid p-3 pl-5 pr-5  h-auto outline-2 rounded-4xl text-dark-alt rounded-br-none break-all whitespace-pre-wrap">{text}</p>
         </div>
-    )
+    );
 }

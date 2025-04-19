@@ -4,8 +4,8 @@ export default function useFormattedTime(time: Date) {
     const minutes = time.getMinutes();
 
     function padZero(num: number) {
-        return (num < 10 ? `0${num}` : num.toString())
+        return (num < 10 ? `0${num}` : num.toString());
     }
 
-    return `${padZero(hours)}:${padZero(minutes)}`
+    return `${padZero(hours)}:${padZero(minutes)}`;
 }
