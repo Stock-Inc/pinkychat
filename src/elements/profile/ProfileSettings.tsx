@@ -3,7 +3,7 @@ import {ChangeEvent, useState} from "react";
 
 export default function ProfileSettings({username, callback}: {username: string, callback: OnClickCallback}) {
 
-    const [newUsername, setNewUsername] = useState(username);
+    const [newUsername, setNewUsername] = useState(username)
 
     function handleNameChange(e:ChangeEvent<HTMLInputElement>) {
         setNewUsername(e.target.value);
@@ -15,5 +15,5 @@ export default function ProfileSettings({username, callback}: {username: string,
                    onChange={handleNameChange}/>
             <button onClick={() => callback(newUsername)} className="cursor-pointer">Change Profile Name</button>
         </div>
-    );
+    )
 }

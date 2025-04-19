@@ -7,5 +7,5 @@ export default function ChatPage({username}: {username: string}) {
             <Header/>
             <ChatArea username={username}/>
         </>
-    );
+    )
 }

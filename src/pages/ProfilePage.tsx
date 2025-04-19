@@ -8,5 +8,5 @@ export default function ProfilePage({username, callback}: {username: string, cal
             <Header/>
             <ProfileSettings callback={callback} username={username}/>
         </>
-    );
+    )
 }
