@@ -4,7 +4,7 @@ export default function OuterMessageBox({message, user, date}: {message: string,
 
     const [text, setText] = useState(message);
 
-    const time = new Date(date * 1000)
+    const time = new Date(date * 1000);
 
     function formatTime() {
         const hours = time.getHours();

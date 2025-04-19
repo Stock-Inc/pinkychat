@@ -1,21 +1,20 @@
 import ChatPage from "./pages/ChatPage.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router";
 import ProfilePage from "./pages/ProfilePage.tsx";
-import {useState} from "react";
-
-export type OnClickCallback = (text:string) => void;
+import {useAppStore} from "./utils/Zustand.ts";
 
 function App() {
-    const [localUserName, setLocalUserName] = useState("placeholder name");
+
+    const username = useAppStore((state) => state.username);
 
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <ChatPage username={localUserName}/>
+            element: <ChatPage username={username}/>
         },
         {
             path: '/profile',
-            element: <ProfilePage callback={(text) => setLocalUserName(text)} username={localUserName}/>
+            element: <ProfilePage/>
         }
     ])
   return (

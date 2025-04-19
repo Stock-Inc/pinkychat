@@ -3,6 +3,7 @@ import UserMessageBox from "./UserMessageBox.tsx";
 import OuterMessageBox from "./OuterMessageBox.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import {useAppStore} from "../../utils/Zustand.ts";
 
 interface chatMessage {
     text: string,
@@ -11,13 +12,13 @@ interface chatMessage {
     date: number
 }
 
-function ChatArea({username}:{username: string}) {
+function ChatArea() {
 
     const defaultMessages:chatMessage[] = [
         {text: "ewe", user: "wewe", id: 1, date:101000}
     ]
 
-    const localUserName = username;
+    const localUserName = useAppStore((state) => state.username);
 
     const [value, setValue] = useState('');
     const [messages, setMessages] = useState(defaultMessages);
