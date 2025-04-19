@@ -3,6 +3,7 @@ import UserMessageBox from "./UserMessageBox.tsx";
 import OuterMessageBox from "./OuterMessageBox.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import {useAppStore} from "../../utils/Zustand.ts";
 
 interface chatMessage {
     text: string,
@@ -11,13 +12,13 @@ interface chatMessage {
     date: number
 }
 
-function ChatArea({username}:{username: string}) {
+function ChatArea() {
 
     const defaultMessages:chatMessage[] = [
         {text: "ewe", user: "wewe", id: 1, date:101000}
-    ]
+    ];
 
-    const localUserName = username;
+    const localUserName = useAppStore((state) => state.username);
 
     const [value, setValue] = useState('');
     const [messages, setMessages] = useState(defaultMessages);
@@ -33,7 +34,7 @@ function ChatArea({username}:{username: string}) {
             const newArray:chatMessage[] = []
             data.reverse().map((element: { message: string; name: string; id: number; date: number }) => {
                 newArray.push({text: element.message, user: element.name, id: element.id, date: element.date});
-            })
+            });
             setMessages(newArray);
         });
     }
@@ -43,7 +44,7 @@ function ChatArea({username}:{username: string}) {
             refreshMessages();
         }, 5000);
         return () => clearInterval(interval);
-    })
+    });
 
     const messageLog = document.getElementById("messageLog");
 
@@ -80,13 +81,13 @@ function ChatArea({username}:{username: string}) {
             e.preventDefault();
             handleMessage();
         }
-    }
+    };
 
     const sendMessageAlt = () => {
         if (value.trim() !== '') {
-            handleMessage()
+            handleMessage();
         }
-    }
+    };
 
     function handleInput (changeEvent: ChangeEvent<HTMLTextAreaElement>) {
         if (ref.current) {
@@ -131,7 +132,7 @@ function ChatArea({username}:{username: string}) {
                 </button>
             </footer>
         </>
-    )
+    );
 }
 
 export default ChatArea;
