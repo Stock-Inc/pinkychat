@@ -1,20 +1,27 @@
 import ChatPage from "./pages/ChatPage.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router";
 import ProfilePage from "./pages/ProfilePage.tsx";
-import {useAppStore} from "./utils/Zustand.ts";
+import Login from "./pages/Login.tsx";
+import SignUp from "./pages/SignUp.tsx";
 
 function App() {
-
-    const username = useAppStore((state) => state.username);
 
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <ChatPage username={username}/>
+            element: <ChatPage/>
         },
         {
             path: '/profile',
             element: <ProfilePage/>
+        },
+        {
+            path: '/login',
+            element: <Login/>
+        },
+        {
+            path: '/sign-up',
+            element: <SignUp/>
         }
     ]);
   return (

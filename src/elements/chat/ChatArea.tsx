@@ -31,7 +31,7 @@ function ChatArea() {
     function refreshMessages() {
         fetchMessages().then((data) => {
             console.log(data);
-            const newArray:chatMessage[] = []
+            const newArray:chatMessage[] = [];
             data.reverse().map((element: { message: string; name: string; id: number; date: number }) => {
                 newArray.push({text: element.message, user: element.name, id: element.id, date: element.date});
             });
