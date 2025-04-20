@@ -8,8 +8,9 @@ function Login() {
 
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const navigatge = useNavigate();
+    const navigate = useNavigate();
 
+    const setUserName = useAppStore.getState().setUsername;
     const setAccessToken = useAppStore.getState().setAccessToken;
 
     function handleNameChange(e:ChangeEvent<HTMLInputElement>){
@@ -38,13 +39,14 @@ function Login() {
             const jsonResponse = await response.json();
             newToken = jsonResponse.token !== undefined ? jsonResponse.token : null;
             setAccessToken(newToken);
-            navigatge('/');
+            setUserName(name);
+            navigate('/');
         }
     }
 
     function handleFormSubmit(e:FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if (password.trim() !== '' && name.trim() !== '') {
+        if (password !== '' && name !== '') {
             signIn();
         }
         else {
