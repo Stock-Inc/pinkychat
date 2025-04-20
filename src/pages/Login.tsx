@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import {ChangeEvent, FormEvent, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Link, useNavigate} from "react-router";
