@@ -98,7 +98,7 @@ function ChatArea() {
 
     return (
         <>
-            <div id="messageLog" className="h-202 overflow-auto
+            <div id="messageLog" className="h-[81vh] overflow-auto
                 [&::-webkit-scrollbar]:w-3
                 [&::-webkit-scrollbar-track]:rounded-full
                 [&::-webkit-scrollbar-track]:bg-femboy
@@ -123,7 +123,7 @@ function ChatArea() {
                     placeholder="Enter your message here. . ."
                     className="w-[95%] focus:outline-3 outline-2 outline-solid outline-femboy
                     font-primary text-femboy rounded-4xl
-                    text-xl mr-4 pt-3 p-2 pl-4 bg-element-darks resize-none
+                    text-xl max-sm:text-lg mr-4 pt-3 p-2 pl-4 bg-element-darks resize-none
                     h-auto">
                 </textarea>
                 <button onClick={sendMessageAlt} className="outline-solid outline-femboy rounded-full h-14 w-14 font-primary text-m p-3 outline-2 text-white
