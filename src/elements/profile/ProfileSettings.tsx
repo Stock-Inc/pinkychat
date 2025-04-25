@@ -11,9 +11,14 @@ export default function ProfileSettings() {
 
     return (
         <div className="text-femboy bg-sub-dark outline-2 outline-femboy-dark outline-solid place-self-center rounded-4xl p-5 mt-20 font-primary text-xl max-sm:flex flex-col">
-            <input className="text-femboy bg-sub-dark outline-2 outline-femboy-dark outline-solid place-self-center rounded-4xl p-3 sm:mr-30" value={newUsername}
+            <input aria-label="Username field"
+                   className="text-femboy bg-sub-dark outline-2 outline-femboy-dark outline-solid place-self-center rounded-4xl p-3 sm:mr-30"
+                   value={newUsername}
                    onChange={handleNameChange}/>
-            <button onClick={() => useAppStore.getState().setUsername(newUsername)} className="cursor-pointer max-sm:mt-3">Change Profile Name</button>
+            <button onClick={() => {
+                useAppStore.getState().setUsername(newUsername);
+                setNewUsername('');
+            }} className="cursor-pointer max-sm:mt-3">Change Profile Name</button>
         </div>
     );
 }

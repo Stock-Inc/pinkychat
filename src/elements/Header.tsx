@@ -13,7 +13,7 @@ function Header() {
         <>
             <header className="bg-sub-dark border-b-2 border-gray-800 pl-3 pr-3 pb-1">
                 <div className="flex justify-between">
-                    <button className="text-white text-xl rounded-full max-sm:p-2 p-4 m-3 hover:outline-gray-400 hover:outline-3
+                    <button aria-label="Open chat menu" className="text-white text-xl rounded-full max-sm:p-2 p-4 m-3 hover:outline-gray-400 hover:outline-3
                 font-primary outline-femboy outline-solid outline-2 cursor-pointer bg-element-dark w-fit h-fit place-self-center" onClick={toggleModal}>
                         <FontAwesomeIcon className="ml-1 mr-1" icon={faBars} style={{color: "#ea96ad", scale: 1.3}} />
                     </button>
