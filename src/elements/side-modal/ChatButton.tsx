@@ -1,7 +1,7 @@
 
 function ChatButton({chatName}: {chatName: string}) {
     return (
-        <div className="m-5 p-2 text-xl font-primary border-2 border-femboy rounded-xl">
+        <div className="m-5 p-2 text-xl font-primary border-2 border-femboy rounded-xl cursor-pointer">
             <p>{chatName}</p>
         </div>
     );
