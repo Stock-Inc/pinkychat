@@ -64,7 +64,7 @@ function SignUp() {
 
     return (
         <div className="h-screen flex flex-col justify-center font-primary text-femboy text-2xl">
-            <form onSubmit={handleSubmit} className="bg-sub-dark border-gray-800 border-2 border-solid flex flex-col w-fit text-center place-self-center rounded-2xl p-10">
+            <form aria-label="Signup form" onSubmit={handleSubmit} className="bg-sub-dark border-gray-800 border-2 border-solid flex flex-col w-fit text-center place-self-center rounded-2xl p-10">
                 <div className="m-3 pl-4 bg-element-dark rounded-4xl border-femboy border-2 border-solid">
                     <FontAwesomeIcon className="mr-2" icon={faUser} />
                     <input className="p-3 focus:outline-none" placeholder="Username" value={name} onChange={handleNameChange} type="text"/>

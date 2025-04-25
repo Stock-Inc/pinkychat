@@ -65,9 +65,9 @@ function Login() {
                     <FontAwesomeIcon className="mr-2" icon={faHeart} />
                     <input className="p-3 focus:outline-none" placeholder="Password" value={password} onChange={handlePasswordChange} type="password"/>
                 </div>
-                <input className="m-3 p-2 bg-element-dark rounded-4xl cursor-pointer hover:bg-femboy hover:text-element-dark" type="submit"/>
+                <input aria-label="Login button" className="m-3 p-2 bg-element-dark rounded-4xl cursor-pointer hover:bg-femboy hover:text-element-dark" type="submit"/>
                 <p className="text-lg mt-3" >Don't have an account?</p>
-                <Link className="text-lg underline" to="/signup">Sign Up!</Link>
+                <Link aria-label="Signup redirect" className="text-lg underline" to="/signup">Sign Up!</Link>
             </form>
         </div>
     );
