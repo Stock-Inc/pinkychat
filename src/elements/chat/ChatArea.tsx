@@ -14,14 +14,12 @@ interface chatMessage {
 
 function ChatArea() {
 
-    const defaultMessages:chatMessage[] = [
-        {text: "ewe", user: "wewe", id: 1, date:101000}
-    ];
+    const defaultMessages:undefined|chatMessage[] = undefined;
 
     const localUserName = useAppStore((state) => state.username);
 
     const [value, setValue] = useState('');
-    const [messages, setMessages] = useState(defaultMessages);
+    const [messages, setMessages] = useState<undefined|chatMessage[]>(defaultMessages);
 
     async function fetchMessages() {
         const response = await fetch("https://api.femboymatrix.su/chat");
@@ -42,7 +40,7 @@ function ChatArea() {
     useEffect(() => {
         const interval = setInterval(() => {
             refreshMessages();
-        }, 5000);
+        }, 3000);
         return () => clearInterval(interval);
     });
 
@@ -106,10 +104,16 @@ function ChatArea() {
                 [&::-webkit-scrollbar-thumb]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-track]:bg-femboy-dark
                 dark:[&::-webkit-scrollbar-thumb]:bg-femboy">
-                {messages.map((message:chatMessage) => (
-                    message.user === localUserName ? <UserMessageBox key={message.id} date={message.date} message={message.text}/>
-                        : <OuterMessageBox key={message.id} user={message.user} date={message.date} message={message.text} />
-                ))}
+                {
+                    messages === undefined ?
+                        <div className="flex flex-col justify-center h-[81vh]">
+                            <h1 className='text-center text-xl sm:text-3xl text-femboy font-primary'>Fetching Messages...</h1>
+                        </div>
+                        : messages.map((message:chatMessage) => (
+                        message.user === localUserName ? <UserMessageBox key={message.id} date={message.date} message={message.text}/>
+                            : <OuterMessageBox key={message.id} user={message.user} date={message.date} message={message.text} />
+                    ))
+                }
             </div>
             <footer className="absolute bottom-0 w-[100%] flex justify-evenly bg-sub-dark p-5 border-t-2 border-gray-800">
                 <textarea
