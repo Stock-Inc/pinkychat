@@ -4,15 +4,19 @@ import OuterMessageBox from "./OuterMessageBox.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import {useAppStore} from "../../utils/Zustand.ts";
+import {Client} from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 interface chatMessage {
-    text: string,
-    user: string,
     id: number,
+    name: string,
+    message: string,
     date: number
 }
 
 function ChatArea() {
+
+    const stompClient = useRef<Client | null>(null);
 
     const defaultMessages:undefined|chatMessage[] = undefined;
 
@@ -21,49 +25,53 @@ function ChatArea() {
     const [value, setValue] = useState('');
     const [messages, setMessages] = useState<undefined|chatMessage[]>(defaultMessages);
 
-    async function fetchMessages() {
-        const response = await fetch("https://api.femboymatrix.su/chat");
-        return await response.json();
-    }
-
-    function refreshMessages() {
-        fetchMessages().then((data) => {
-            console.log(data);
-            const newArray:chatMessage[] = [];
-            data.reverse().map((element: { message: string; name: string; id: number; date: number }) => {
-                newArray.push({text: element.message, user: element.name, id: element.id, date: element.date});
-            });
-            setMessages(newArray);
-        });
-    }
-
     useEffect(() => {
-        const interval = setInterval(() => {
-            refreshMessages();
-        }, 3000);
-        return () => clearInterval(interval);
-    });
 
-    const messageLog = document.getElementById("messageLog");
+        stompClient.current = new Client({
+            webSocketFactory: () => new SockJS("https://api.femboymatrix.su/ws"),
+            reconnectDelay: 5000,
+            debug: (str) => console.log(str),
 
-    const initialInputHeight:number = 52;
+            onConnect: (frame) => {
+                console.log("Connection established");
+                console.log(frame);
 
-    const ref= useRef<HTMLTextAreaElement>(null);
+                stompClient.current!.subscribe("/topic/message",
+                    (message) => {
+                        console.log(message);
+                        const parsedMessage: chatMessage = JSON.parse(message.body);
+                        console.log(parsedMessage);
+                        setMessages(m => [...(m ?? []), parsedMessage]);
+                    });
 
-    function handleMessage() {
-        fetch("https://api.femboymatrix.su/chat", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
+                stompClient.current!.subscribe("/topic/history",
+                    (message) => {
+                        console.log(message);
+                        const parsedMessages: chatMessage[] = JSON.parse(message.body);
+                        console.log(parsedMessages);
+                        setMessages(parsedMessages.reverse());
+                    });
+
+                stompClient.current!.publish({destination: "/app/history", body: JSON.stringify([]), headers: {'content-type': 'application/json'}});
+
+
             },
-            body: JSON.stringify({
-                name: localUserName,
-                message: value
-            })
-        });
-        refreshMessages();
-        setValue('');
 
+            onStompError: (frame) => {
+                console.log(`Error: ${frame}`);
+            }
+        });
+
+        stompClient.current.activate();
+
+        return () => {
+            stompClient.current?.deactivate();
+        };
+
+    }, []);
+
+    //scrolls down on message array change
+    useEffect(() => {
         if (messageLog) {
             messageLog.scrollTop = messageLog.scrollHeight;
         }
@@ -72,6 +80,30 @@ function ChatArea() {
             ref.current.style.height = "auto";
             ref.current.style.height = `${initialInputHeight}px`;
         }
+    }, [messages]);
+
+    const messageLog = document.getElementById("messageLog");
+
+    const initialInputHeight:number = 52;
+
+    const ref= useRef<HTMLTextAreaElement>(null);
+
+    function handleMessage() {
+        stompClient.current?.publish(
+            {
+                destination: "/app/chat",
+                body: JSON.stringify(
+                    {
+                        name: localUserName,
+                        message: value
+                    }
+                ),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }
+        );
+        setValue('');
     }
 
     const sendMessageEnter = (e:KeyboardEvent<HTMLTextAreaElement>) => {
@@ -110,8 +142,8 @@ function ChatArea() {
                             <h1 className='text-center text-xl sm:text-3xl text-femboy font-primary'>Fetching Messages...</h1>
                         </div>
                         : messages.map((message:chatMessage) => (
-                        message.user === localUserName ? <UserMessageBox key={message.id} date={message.date} message={message.text}/>
-                            : <OuterMessageBox key={message.id} user={message.user} date={message.date} message={message.text} />
+                        message.name === localUserName ? <UserMessageBox key={message.id} date={message.date} message={message.message}/>
+                            : <OuterMessageBox key={message.id} user={message.name} date={message.date} message={message.message} />
                     ))
                 }
             </div>
